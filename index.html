@@ -19,7 +19,7 @@
             font-style: normal;
         }
 
-        *{
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -27,7 +27,7 @@
             font-family: 'CookieRun-Regular';
         }
 
-        body{
+        body {
             width: 100%;
             height: 95vh;
             background: #111;
@@ -44,7 +44,7 @@
         /* 크롬 button 모바일에서 터치 시 파란색 영역 제거 */
         button:focus {
             outline: none;
-        }        
+        }
 
 
         .game_container {
@@ -249,15 +249,16 @@
 
                 await this.questionStep();
 
-                this.el.timer.style.transition = `${this.time}s linear width`;
-                this.el.timer.style.width = "0";
-                this.el.buttons.forEach((btn) => { // 버튼 비활성화
-                    btn.disabled = false;
-                });
+                setTimeout(() => {
+                    this.el.timer.style.transition = `${this.time}s linear width`;
+                    this.el.timer.style.width = "0";
+                    this.el.buttons.forEach((btn) => {
+                        btn.disabled = false;
+                    });
 
-                this.playerAnswer = true;
-
-                setTimeout(() => this.startTimer(), 500) // 제한시간 시작
+                    this.playerAnswer = true;
+                    this.startTimer()
+                }, 500) // 제한시간 시작
             }
 
             playerSubmit(num) {
