@@ -450,14 +450,14 @@
                     btn.addEventListener('click', (e) => {
                         this.playerSubmit(Number(e.target.dataset.number));
                     });
-                    btn.addEventListener('touchstart', (e) => {
-                        if (!this.playerAnswer) return;
-                        if(event.target.disabled) return;
-                        event.target.classList.add('active');
-                    });
-                    btn.addEventListener('touchend', (e) => {
-                        event.target.classList.remove('active');
-                    });
+                    // btn.addEventListener('touchstart', (e) => {
+                    //     if (!this.playerAnswer) return;
+                    //     if(event.target.disabled) return;
+                    //     event.target.classList.add('active');
+                    // });
+                    // btn.addEventListener('touchend', (e) => {
+                    //     event.target.classList.remove('active');
+                    // });
                 });
 
                 this.init(); // 초기화 함수 실행
