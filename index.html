@@ -40,6 +40,19 @@
         h1 {
             color: #fff;
             margin-bottom: 20px;
+            position: relative;
+        }
+
+        h1::before {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 4px;
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(to right, rgb(212, 50, 50) 0%, rgb(212, 50, 50) 25%, rgb(69, 69, 194) 25%, rgb(69, 69, 194) 50%, rgb(82, 184, 136) 50%, rgb(82, 184, 136) 75%, rgb(235, 221, 94) 75%, rgb(235, 221, 94) 100%);
         }
 
         button {
