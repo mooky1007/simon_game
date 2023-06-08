@@ -423,6 +423,7 @@
                     });
                     btn.addEventListener('touchstart', (e) => {
                         if (!this.playerAnswer) return;
+                        if(event.target.disabled) return;
                         event.target.classList.add('active');
                     });
                     btn.addEventListener('touchend', (e) => {
