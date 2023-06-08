@@ -1,0 +1,11 @@
+[
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "io.github.mooky1007.twa",
+            "sha256_cert_fingerprints": ["6D:30:EA:54:B2:EC:31:78:22:02:ED:09:57:BA:F3:24:CD:54:CF:38:60:E0:25:A0:A1:D6:23:55:BC:D0:4A:40"]
+            
+        }
+    }
+]
