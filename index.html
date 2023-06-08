@@ -5,17 +5,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>Simon Game</title>
 </head>
 
 <body>
 
     <style>
+        @font-face {
+            font-family: 'CookieRun-Regular';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         *{
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            font-family: 'CookieRun-Regular';
         }
 
         body{
@@ -41,7 +50,7 @@
         .game_container {
             display: flex;
             flex-direction: column;
-            width: 300px;
+            width: 380px;
             margin: 0 auto;
             background-color: #fff;
             border-radius: 10px;
@@ -53,7 +62,7 @@
         .game_container p {
             margin: 0 !important;
             padding: 0 !important;
-            font-size: 12px;
+            font-size: 16px;
         }
 
         .game_container p span {
@@ -65,8 +74,8 @@
         }
 
         .game_buttons button {
-            width: 36px;
-            height: 36px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             border: 2px solid #333 !important;
             margin: 5px;
@@ -88,7 +97,7 @@
             border-radius: 5px;
             background-color: #000;
             color: #fff;
-            font-size: 12px;
+            font-size: 24px;
             cursor: pointer;
         }
 
@@ -172,7 +181,6 @@
                 this.time = 3; // 제한시간
                 this.speed = 1; // 게임 속도
                 this.gameStatus = false; // 게임의 상태를 나타내는 변수
-                this.playerAnswer = false; // 플레이어가 정답을 입력했는지 확인하는 변수
                 this.playerArr = []; // 플레이어가 입력한 정답이 들어가는 배열
 
                 this.el = {
