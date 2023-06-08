@@ -194,7 +194,7 @@
             background-color: rgb(235, 221, 94);
         }
 
-        .game_buttons button:active {
+        .game_buttons button:not(:disabled):active {
             transform: scale(0.98);
         }
 
@@ -202,7 +202,6 @@
             background-color: #efefef;
             border-color: #ddd !important;
             cursor: not-allowed;
-            transform: scale(1);
         }
 
         .game_over {
@@ -247,7 +246,7 @@
             justify-content: center;
             align-items: center;
             z-index: 2;
-            transition: all 0.2s ease-in-out;
+            transition: all 0.3s ease-in-out;
         }
         
         .collect.active {
@@ -320,6 +319,10 @@
         .shake {
             animation: shake 0.2s ease-in-out;
         }
+
+        .best_score .high {
+            color: rgb(160, 218, 149);
+        }
     </style>
 
     <h1>Let's Play Simon!</h1>
@@ -385,6 +388,7 @@
                 this.playerArr = [];
                 this.answerArr = [];
 
+                this.el.bestScore.classList.remove('high'); // 최고점수 효과 제거
                 this.el.level.textContent = this.level + 1;
                 this.el.score.textContent = this.score;
                 this.el.bestScore.textContent = this.bestScore;
@@ -429,9 +433,6 @@
                 setTimeout(() => {
                     this.el.timer.style.transition = `${this.time}s linear width`;
                     this.el.timer.style.width = "0";
-                    this.el.buttons.forEach((btn) => {
-                        btn.disabled = false;
-                    });
 
                     this.playerAnswer = true;
                     this.startTimer()
@@ -440,6 +441,7 @@
 
             playerSubmit(num) {
                 if (!this.playerAnswer) return;
+                if(!this.gameStatus) return;
                 this.playerArr.push(num);
                 navigator.vibrate(100);
 
@@ -483,6 +485,9 @@
 
             startTimer() {
                 if (!this.checkGameStatus()) return; // 게임이 진행중이 아니면 실행하지 않음
+                this.el.buttons.forEach((btn) => {
+                    btn.disabled = false;
+                });
                 this.timer = setInterval(() => {
                     this.time -= 1;
                     if (this.time === 0) {
@@ -505,6 +510,10 @@
                     }
                 }
 
+                this.el.buttons.forEach((btn) => { // 버튼 비활성화
+                    btn.disabled = true;
+                });
+
                 this.level += 1; // 정답이면 레벨 증가
                 this.score += (this.level + (this.time * 10)); // 정답이면 레벨 + 남은 시간 x 10 만큼 점수 증가
                 this.gameStatus = false; // 게임 상태를 진행중으로 변경
@@ -515,19 +524,28 @@
                 await new Promise((resolve, reject) => {
                     setTimeout(() => {
                         resolve();
-                    }, 400);
+                    }, 500);
                 });
 
                 this.el.collect.classList.remove('active');
 
                 this.el.level.textContent = this.level + 1; // 레벨 출력
                 this.el.score.textContent = this.score; // 점수 출력
+                if(this.score > this.bestScore) {
+                    this.el.bestScore.classList.add('high');
+                    this.el.bestScore.textContent = this.score;
+                }else{
+                    this.el.bestScore.classList.remove('high');
+                }
 
                 this.start(); // 게임 시작
             }
 
             gameOver() { // 게임오버 함수
                 this.restart = true; // 게임 재시작 변수를 true로 변경
+                this.el.buttons.forEach((btn) => { // 버튼 비활성화
+                    btn.disabled = true;
+                });
                 this.el.container.classList.add('shake');
                 navigator.vibrate(500);
 
