@@ -1,6 +1,7 @@
 {
     "name": "Simon Game",
     "short_name": "Simon Game",
+    "description": "Test your memory with this Simon Game.",
     "icons": [
         {
             "src": "/assets/simon_72.png",
@@ -35,6 +36,6 @@
     ],
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#FFFFFF",
-    "theme_color": "#f2f2f2"
+    "background_color": "#111",
+    "theme_color": "#fff"
 }
