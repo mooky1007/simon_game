@@ -422,7 +422,7 @@
                         this.playerSubmit(Number(e.target.dataset.number));
                     });
                     btn.addEventListener('touchstart', (e) => {
-                        if (!this.gameStatus) return;
+                        if (!this.playerAnswer) return;
                         event.target.classList.add('active');
                     });
                     btn.addEventListener('touchend', (e) => {
