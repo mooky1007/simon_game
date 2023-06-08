@@ -34,7 +34,7 @@
             "sizes": "512x512"
         }
     ],
-    "start_url": "/simon_game",
+    "start_url": "/simon_game/index.html",
     "display": "standalone",
     "background_color": "#111",
     "theme_color": "#fff",
