@@ -11,11 +11,11 @@
     <meta name="og:description" content="기억력의 한계를 시험하십시오.">
     <meta name="og:image" content="./assets/thumnail.png">
     <title>Simon Game</title>
-    <script type="module">
+    <!-- <script type="module">
         import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
         const el = document.createElement('pwa-update');
         document.body.appendChild(el);
-    </script>
+    </script> -->
 </head>
 
 <body>
@@ -38,7 +38,7 @@
 
         body {
             width: 100%;
-            height: 95vh;
+            height: 100vh;
             background: #111;
             display: flex;
             justify-content: center;
@@ -345,8 +345,30 @@
         .best_score .high {
             color: rgb(160, 218, 149);
         }
-    </style>
 
+        #buttonInstall {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #buttonInstall button {
+            padding: 10px 30px;
+            background: rgb(212, 50, 50);
+            cursor: pointer;
+            color: #fff;
+        }
+    </style>
+    <div id="buttonInstall">
+        <button>앱 설치</button>
+    </div>
     <h1>Let's Play Simon!</h1>
     <div class="game_container">
         <p class="level">Lv. <span>1</span></p>
@@ -589,6 +611,33 @@
         }
 
         const game = new SimonGame();
+
+        // Initialize deferredPrompt for use later to show browser install prompt.
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = e;
+            // Update UI notify the user they can install the PWA
+            buttonInstall.style.display = 'flex';
+            // Optionally, send analytics event that PWA install promo was shown.
+            console.log(`'beforeinstallprompt' event was fired.`);
+        });
+
+        buttonInstall.querySelector('button').addEventListener('click', async () => {
+            // Hide the app provided install promotion
+            buttonInstall.style.display = 'none';
+            // Show the install prompt
+            deferredPrompt.prompt();
+            // Wait for the user to respond to the prompt
+            const { outcome } = await deferredPrompt.userChoice;
+            // Optionally, send analytics event with outcome of user choice
+            console.log(`User response to the install prompt: ${outcome}`);
+            // We've used the prompt, and can't use it again, throw it away
+            deferredPrompt = null;
+        });
     </script>
 </body>
 
