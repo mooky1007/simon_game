@@ -72,7 +72,7 @@
             margin: 5px;
             background-color: #fff;
             cursor: pointer;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .start_btn:disabled {
@@ -132,6 +132,13 @@
         .game_over.active {
             display: block;
         }
+
+        .timer {
+            height: 4px;
+            width: 0;
+            background: #f8acac;
+            margin-bottom: 10px;
+        }
     </style>
 
     <div class="game_container">
@@ -142,7 +149,8 @@
             <button disabled data-number="2"></button>
             <button disabled data-number="3"></button>
         </div>
-        <p class="timer">남은 시간 : <span>0</span>s</p>
+        <div class="timer"></div>
+        <p class="level">현재 레벨 : <span>1</span></p>
         <p class="score">현재 점수 : <span>0</span></p>
         <p class="best_score">최고 점수 : <span>0</span></p>
         <button class="start_btn">START</button>
@@ -162,7 +170,8 @@
 
                 this.el = {
                     buttons: document.querySelectorAll('.game_buttons button'),
-                    timer: document.querySelector('.timer span'),
+                    level: document.querySelector('.level span'),
+                    timer: document.querySelector('.timer'),
                     startBtn: document.querySelector('.start_btn'),
                     score: document.querySelector('.score span'),
                     bestScore: document.querySelector('.best_score span'),
@@ -182,9 +191,10 @@
                 this.playerArr = [];
                 this.answerArr = [];
 
-                this.el.timer.textContent = this.time;
+                this.el.level.textContent = this.level + 1;
                 this.el.score.textContent = this.score;
                 this.el.bestScore.textContent = this.bestScore;
+                this.el.timer.style.width = "0";
 
                 this.el.startBtn.addEventListener('click', () => { this.start(); });
                 this.el.buttons.forEach((btn) => { // 버튼 비활성화
@@ -212,14 +222,20 @@
                 if (this.checkGameStatus()) return; // 게임이 진행중이면 실행하지 않음
                 this.gameStatus = true; // 게임 상태를 진행중으로 변경
                 this.time = 3 + Math.trunc(this.level / 4); // 제한시간 초기화
-                this.el.timer.textContent = this.time; // 제한시간 출력
                 this.createLevel(); // 레벨에 맞는 문제를 생성
 
                 this.el.buttons.forEach((btn) => { // 버튼 비활성화
                     btn.disabled = true;
                 });
 
+                this.el.timer.style.transition = `none`;
+                this.el.timer.style.width = "80%";
+
                 await this.questionStep();
+
+                this.el.timer.style.transition = `${this.time}s linear width`;
+                this.el.timer.style.width = "0";
+
                 this.playerAnswer = true;
 
                 setTimeout(() => this.startTimer(), 500) // 제한시간 시작
@@ -269,7 +285,6 @@
                 });
                 this.timer = setInterval(() => {
                     this.time -= 1;
-                    this.el.timer.textContent = this.time; // 제한시간 출력
                     if (this.time === 0) {
                         this.gameOver();
                     }
@@ -288,6 +303,7 @@
                 }
 
                 this.level += 1; // 정답이면 레벨 증가
+                this.el.level.textContent = this.level + 1; // 레벨 출력
                 this.score += (this.level + (this.time * 10)); // 정답이면 레벨 + 남은 시간 x 10 만큼 점수 증가
                 this.el.score.textContent = this.score; // 점수 출력
                 this.gameStatus = false; // 게임 상태를 진행중으로 변경
@@ -306,6 +322,8 @@
                 }
                 this.init(); // 초기화
 
+                this.el.timer.style.transition = `none`;
+                this.el.timer.style.width = "0";
                 this.el.startBtn.disabled = false;
                 this.el.gameOver.classList.add('active');
             }
