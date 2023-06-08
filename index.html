@@ -139,7 +139,7 @@
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            background-color: #fff;
+            background-color: #eee;
             cursor: pointer;
             transition: transform 0.1s ease-in-out;
         }
@@ -148,6 +148,8 @@
             border-radius: 100px 0 0 0;
             border-top: 2px solid #ddd;
             border-left: 2px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            border-right: 1px solid #ddd;
             transform-origin: bottom right;
         }
 
@@ -155,6 +157,8 @@
             border-radius: 0 100px 0 0;
             border-top: 2px solid #ddd;
             border-right: 2px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            border-left: 1px solid #ddd;
             transform-origin: bottom left;
         }
 
@@ -162,6 +166,8 @@
             border-radius: 0 0 0 100px;
             border-bottom: 2px solid #ddd;
             border-left: 2px solid #ddd;
+            border-top: 1px solid #ddd;
+            border-right: 1px solid #ddd;
             transform-origin: top right;
         }
 
@@ -169,6 +175,8 @@
             border-radius: 0 0 100px 0;
             border-bottom: 2px solid #ddd;
             border-right: 2px solid #ddd;
+            border-top: 1px solid #ddd;
+            border-left: 1px solid #ddd;
             transform-origin: top left;
         }
 
@@ -193,7 +201,7 @@
         }
 
         .game_buttons button:disabled {
-            background-color: #efefef;
+            background-color: #eee;
             border-color: #ddd !important;
             cursor: not-allowed;
         }
@@ -223,7 +231,7 @@
         }
 
         .game_buttons button:disabled:active {
-            background-color: #efefef;
+            background-color: #eee;
             border-color: #ddd !important;
             cursor: not-allowed;
         }
@@ -493,13 +501,10 @@
                 this.el.timer.style.width = "60%";
 
                 await this.questionStep();
-
-                setTimeout(() => {
-                    this.el.timer.style.transition = `${this.time}s linear width`;
-                    this.el.timer.style.width = "0";
-
+                
+                setTimeout(async () => {
                     this.playerAnswer = true;
-                    this.startTimer()
+                    await this.startTimer()
                 }, 500) // 제한시간 시작
             }
 
@@ -551,9 +556,14 @@
 
             startTimer() {
                 if (!this.checkGameStatus()) return; // 게임이 진행중이 아니면 실행하지 않음
+                
                 this.el.buttons.forEach((btn) => {
                     btn.disabled = false;
                 });
+                
+                this.el.timer.style.transition = `${this.time}s linear width`;
+                this.el.timer.style.width = "0";
+                
                 this.timer = setInterval(() => {
                     this.time -= 1;
                     if (this.time === 0) {
