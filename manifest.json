@@ -1,6 +1,6 @@
 {
-    "name": "9bin first PWA",
-    "short_name": "9BIN",
+    "name": "Simon Game",
+    "short_name": "Simon Game",
     "icons": [
         {
             "src": "/assets/simon_72.png",
