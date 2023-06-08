@@ -68,7 +68,7 @@
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            border: 1px solid #000 !important;
+            border: 2px solid #333 !important;
             margin: 5px;
             background-color: #fff;
             cursor: pointer;
@@ -94,7 +94,7 @@
 
         .game_buttons button:disabled {
             background-color: #fff;
-            border-color: #ccc !important;
+            border-color: #ddd !important;
             cursor: not-allowed;
         }
 
@@ -116,6 +116,12 @@
         .game_buttons button[data-number="3"].action,
         .game_buttons button[data-number="3"]:active {
             background-color: yellow;
+        }
+
+        .game_buttons button:disabled:active {
+            background-color: #fff;
+            border-color: #ddd !important;
+            cursor: not-allowed;
         }
 
         .game_over {
@@ -235,6 +241,9 @@
 
                 this.el.timer.style.transition = `${this.time}s linear width`;
                 this.el.timer.style.width = "0";
+                this.el.buttons.forEach((btn) => { // 버튼 비활성화
+                    btn.disabled = false;
+                });
 
                 this.playerAnswer = true;
 
@@ -280,9 +289,6 @@
 
             startTimer() {
                 if (!this.checkGameStatus()) return; // 게임이 진행중이 아니면 실행하지 않음
-                this.el.buttons.forEach((btn) => { // 버튼 비활성화
-                    btn.disabled = false;
-                });
                 this.timer = setInterval(() => {
                     this.time -= 1;
                     if (this.time === 0) {
