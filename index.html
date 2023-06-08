@@ -416,9 +416,34 @@
                 };
 
                 this.el.startBtn.addEventListener('click', () => { this.start(); });
+
+                // function addActiveClass(event) {
+                //     event.target.classList.add('active');
+                // }
+
+                // const buttons = document.querySelectorAll('.game_buttons button');
+                // buttons.forEach(button => {
+                //     button.addEventListener('touchstart', addActiveClass);
+                // });
+
+                // function removeActiveClass(event) {
+                //     event.target.classList.remove('active');
+                // }
+
+                // buttons.forEach(button => {
+                //     button.addEventListener('touchend', removeActiveClass);
+                // });
+
                 this.el.buttons.forEach((btn) => {
                     btn.addEventListener('click', (e) => {
                         this.playerSubmit(Number(e.target.dataset.number));
+                    });
+                    btn.addEventListener('touchstart', (e) => {
+                        if (!this.gameStatus) return;
+                        event.target.classList.add('active');
+                    });
+                    btn.addEventListener('touchend', (e) => {
+                        event.target.classList.remove('active');
                     });
                 });
 
@@ -672,23 +697,6 @@
             }
             // Log display mode change to analytics
             console.log('DISPLAY_MODE_CHANGED', displayMode);
-        });
-
-        function addActiveClass(event) {
-            event.target.classList.add('active');
-        }
-
-        const buttons = document.querySelectorAll('.game_buttons button');
-        buttons.forEach(button => {
-            button.addEventListener('touchstart', addActiveClass);
-        });
-
-        function removeActiveClass(event) {
-            event.target.classList.remove('active');
-        }
-
-        buttons.forEach(button => {
-            button.addEventListener('touchend', removeActiveClass);
         });
     </script>
 </body>
