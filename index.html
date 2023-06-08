@@ -87,6 +87,22 @@
             margin-bottom: 20px;
         }
 
+        .game_buttons::after {
+            content: "";
+            display: block;
+            width: 50px;
+            height: 50px;
+            border: 2px solid #ddd;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background-color: #fff;
+            z-index: 1;
+            pointer-events: none;
+        }
+
         .game_buttons button {
             width: 100px;
             height: 100px;
@@ -205,10 +221,39 @@
             text-align: center;
             justify-content: center;
             align-items: center;
+            z-index: 2;
         }
 
         .game_over.active {
             display: flex;
+        }
+
+        .collect {
+            display: flex;
+            pointer-events: none;
+            opacity: 0;
+            font-size: 20px;
+            font-weight: bold;
+            color: rgb(160, 218, 149);
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            top: 50%;
+            left: 50%;
+            transform: translate(-52%, -50%);
+            width: 60%;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+        
+        .collect.active {
+            display: flex;
+            opacity: 1;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.2s ease-in-out;
         }
 
         .timer {
@@ -223,6 +268,57 @@
             margin: 0 0 10px 0 !important;
             display: block;
         }
+
+        @keyframes shake {
+            0% {
+                transform: translateX(0);
+            }
+
+            10% {
+                transform: translateX(-2px);
+            }
+
+            20% {
+                transform: translateX(2px);
+            }
+
+            30% {
+                transform: translateX(-2px);
+            }
+
+            40% {
+                transform: translateX(2px);
+            }
+
+            50% {
+                transform: translateX(-2px);
+            }
+
+            60% {
+                transform: translateX(2px);
+            }
+
+            70% {
+                transform: translateX(-2px);
+            }
+
+            80% {
+                transform: translateX(2px);
+            }
+
+            90% {
+                transform: translateX(-2px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+
+        }
+
+        .shake {
+            animation: shake 0.2s ease-in-out;
+        }
     </style>
 
     <h1>Let's Play Simon!</h1>
@@ -234,6 +330,7 @@
             <button disabled data-number="2"></button>
             <button disabled data-number="3"></button>
             <span class="game_over">GAME OVER</span>
+            <span class="collect">Collect!</span>
         </div>
         <div class="timer"></div>
         <p class="score">Score : <span>0</span></p>
@@ -252,6 +349,7 @@
                 this.speed = 1; // 게임 속도
                 this.gameStatus = false; // 게임의 상태를 나타내는 변수
                 this.playerArr = []; // 플레이어가 입력한 정답이 들어가는 배열
+                this.restart = false; // 게임 재시작을 위한 변수
 
                 this.el = {
                     buttons: document.querySelectorAll('.game_buttons button'),
@@ -260,7 +358,9 @@
                     startBtn: document.querySelector('.start_btn'),
                     score: document.querySelector('.score span'),
                     bestScore: document.querySelector('.best_score span'),
-                    gameOver: document.querySelector('.game_over')
+                    gameOver: document.querySelector('.game_over'),
+                    container: document.querySelector('.game_container'),
+                    collect: document.querySelector('.collect'),
                 };
 
                 this.el.startBtn.addEventListener('click', () => { this.start(); });
@@ -274,6 +374,7 @@
             }
 
             init() { // 초기화 함수
+                this.el.container.classList.remove('shake'); // 흔들림 효과 제거
                 this.level = 0;
                 this.score = 0;
                 this.time = 3;
@@ -302,6 +403,11 @@
             }
 
             async start() { // 게임 시작 함수
+                if(this.restart) { // 게임 재시작이면
+                    this.init(); // 초기화
+                    this.restart = false; // 재시작 변수를 false로 변경
+                }
+
                 this.playerAnswer = false;
                 this.el.startBtn.disabled = true;
                 this.el.gameOver.classList.remove('active');
@@ -384,7 +490,7 @@
                 }, 1000);
             }
 
-            submitAnswer(arr) { // 정답 제출 함수
+            async submitAnswer(arr) { // 정답 제출 함수
                 if (!this.checkGameStatus()) return; // 게임이 진행중이 아니면 실행하지 않음
                 clearTimeout(this.timer); // 타이머 제거
 
@@ -399,17 +505,31 @@
                 }
 
                 this.level += 1; // 정답이면 레벨 증가
-                this.el.level.textContent = this.level + 1; // 레벨 출력
                 this.score += (this.level + (this.time * 10)); // 정답이면 레벨 + 남은 시간 x 10 만큼 점수 증가
-                this.el.score.textContent = this.score; // 점수 출력
                 this.gameStatus = false; // 게임 상태를 진행중으로 변경
-
                 this.speed += 0.1; // 게임 속도 증가
+
+                this.el.collect.classList.add('active');
+
+                await new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve();
+                    }, 400);
+                });
+
+                this.el.collect.classList.remove('active');
+
+                this.el.level.textContent = this.level + 1; // 레벨 출력
+                this.el.score.textContent = this.score; // 점수 출력
 
                 this.start(); // 게임 시작
             }
 
             gameOver() { // 게임오버 함수
+                this.restart = true; // 게임 재시작 변수를 true로 변경
+                this.el.container.classList.add('shake');
+                navigator.vibrate(500);
+
                 this.gameStatus = false; // 게임 상태를 종료로 변경
                 clearTimeout(this.timer); // 타이머 초기화
                 if (this.score > this.bestScore) { // 최고점수 갱신
