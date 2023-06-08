@@ -4,32 +4,32 @@
     "description": "Test your memory with this Simon Game.",
     "icons": [
         {
-            "src": "/assets/simon_72.png",
+            "src": "/simon_game/assets/simon_72.png",
             "type": "image/png",
             "sizes": "72x72"
         },
         {
-            "src": "/assets/simon_96.png",
+            "src": "/simon_game/assets/simon_96.png",
             "type": "image/png",
             "sizes": "96x96"
         },
         {
-            "src": "/assets/simon_128.png",
+            "src": "/simon_game/assets/simon_128.png",
             "type": "image/png",
             "sizes": "128x128"
         },
         {
-            "src": "/assets/simon_144.png",
+            "src": "/simon_game/assets/simon_144.png",
             "type": "image/png",
             "sizes": "144x144"
         },
         {
-            "src": "/assets/simon_152.png",
+            "src": "/simon_game/assets/simon_152.png",
             "type": "image/png",
             "sizes": "152x152"
         },
         {
-            "src": "/assets/simon_512.png",
+            "src": "/simon_game/assets/simon_512.png",
             "type": "image/png",
             "sizes": "512x512"
         }
