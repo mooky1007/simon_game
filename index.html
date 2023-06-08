@@ -391,6 +391,8 @@
             }
 
             init() { // 초기화 함수
+                window.localStorage.getItem('bestScore') ? this.bestScore = window.localStorage.getItem('bestScore') : this.bestScore = 0; // 로컬스토리지에 점수가 있으면 가져오고 없으면 0으로 초기화
+                this.el.bestScore.textContent = this.bestScore; // 최고점수 표시
                 this.el.container.classList.remove('shake'); // 흔들림 효과 제거
                 this.level = 0;
                 this.score = 0;
@@ -567,6 +569,7 @@
                 if (this.score > this.bestScore) { // 최고점수 갱신
                     this.bestScore = this.score;;
                     this.el.bestScore.textContent = this.bestScore;
+                    window.localStorage.setItem('bestScore', this.bestScore);
                 }
 
                 this.el.timer.style.transition = `none`;
