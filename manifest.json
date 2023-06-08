@@ -38,9 +38,5 @@
     "display": "standalone",
     "background_color": "#111",
     "theme_color": "#fff",
-    "display_override": [
-      "fullscreen",
-      "window-controls-overlay"
-    ],
     "scope": "/simon_game"
   }
