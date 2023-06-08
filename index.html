@@ -34,11 +34,17 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
         }
 
         button {
             box-shadow: none;
-            border: none !important;
+            border: none;
         }
 
         /* 크롬 button 모바일에서 터치 시 파란색 영역 제거 */
@@ -50,6 +56,7 @@
         .game_container {
             display: flex;
             flex-direction: column;
+            position: relative;
             width: 300px;
             margin: 0 auto;
             background-color: #fff;
@@ -57,6 +64,7 @@
             padding: 30px 10px;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
 
         .game_container p {
@@ -70,34 +78,68 @@
         }
 
         .game_buttons {
-            width: 140px;
+            width: 100%;
             display: flex;
             flex-wrap: wrap;
             position: relative;
             justify-content: center;
             align-items: center;
+            margin-bottom: 20px;
         }
 
         .game_buttons button {
-            width: 60px;
-            height: 60px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            border: 2px solid #333 !important;
-            margin: 5px;
             background-color: #fff;
             cursor: pointer;
-            margin-bottom: 10px;
+            transition: transform 0.1s ease-in-out;
+        }
+
+        .game_buttons button:nth-child(1) {
+            border-radius: 100px 0 0 0;
+            border-top: 2px solid #ddd;
+            border-left: 2px solid #ddd;
+            border-right: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            transform-origin: bottom right;
+        }
+
+        .game_buttons button:nth-child(2) {
+            border-radius: 0 100px 0 0;
+            border-top: 2px solid #ddd;
+            border-right: 2px solid #ddd;
+            border-left: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            transform-origin: bottom left;
+        }
+
+        .game_buttons button:nth-child(3) {
+            border-radius: 0 0 0 100px;
+            border-bottom: 2px solid #ddd;
+            border-left: 2px solid #ddd;
+            border-right: 1px solid #ddd;
+            border-top: 1px solid #ddd;
+            transform-origin: top right;
+        }
+
+        .game_buttons button:nth-child(4) {
+            border-radius: 0 0 100px 0;
+            border-bottom: 2px solid #ddd;
+            border-right: 2px solid #ddd;
+            border-left: 1px solid #ddd;
+            border-top: 1px solid #ddd;
+            transform-origin: top left;
         }
 
         .start_btn:disabled {
             background-color: #ddd;
-            border-color: #ccc !important;
             cursor: not-allowed;
         }
 
         .start_btn {
             margin-top: 20px;
-            width: 80%;
+            width: 60%;
             padding: 10px 0;
             border-radius: 5px;
             background-color: #000;
@@ -106,8 +148,12 @@
             cursor: pointer;
         }
 
+        .start_btn:active {
+            transform: scale(0.98);
+        }
+
         .game_buttons button:disabled {
-            background-color: #fff;
+            background-color: #efefef;
             border-color: #ddd !important;
             cursor: not-allowed;
         }
@@ -132,10 +178,15 @@
             background-color: yellow;
         }
 
+        .game_buttons button:active {
+            transform: scale(0.98);
+        }
+
         .game_buttons button:disabled:active {
-            background-color: #fff;
+            background-color: #efefef;
             border-color: #ddd !important;
             cursor: not-allowed;
+            transform: scale(1);
         }
 
         .game_over {
@@ -144,22 +195,28 @@
             font-weight: bold;
             color: red;
             position: absolute;
-            left: 50%;
-            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
             top: 50%;
-            transform: translate(-48%, -50%);
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            padding: 20px;
+            border-radius: 10px;
             text-align: center;
+            justify-content: center;
+            align-items: center;
         }
 
         .game_over.active {
-            display: block;
+            display: flex;
         }
 
         .timer {
             height: 4px;
             width: 0;
             background: #f8acac;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            position: relative;
         }
 
         p.level {
@@ -168,14 +225,15 @@
         }
     </style>
 
+    <h1>Let's Play Simon!</h1>
     <div class="game_container">
         <p class="level">Lv. <span>1</span></p>
         <div class="game_buttons">
-            <span class="game_over">GAME OVER</span>
             <button disabled data-number="0"></button>
             <button disabled data-number="1"></button>
             <button disabled data-number="2"></button>
             <button disabled data-number="3"></button>
+            <span class="game_over">GAME OVER</span>
         </div>
         <div class="timer"></div>
         <p class="score">Score : <span>0</span></p>
@@ -257,7 +315,7 @@
                 });
 
                 this.el.timer.style.transition = `none`;
-                this.el.timer.style.width = "80%";
+                this.el.timer.style.width = "60%";
 
                 await this.questionStep();
 
@@ -276,6 +334,10 @@
             playerSubmit(num) {
                 if (!this.playerAnswer) return;
                 this.playerArr.push(num);
+                navigator.vibrate(100);
+
+                this.playerArr[this.playerArr.length - 1] === this.answerArr[this.playerArr.length - 1] ? this.score++ : this.gameOver();
+
                 if (this.playerArr.length === this.answerArr.length) {
                     this.submitAnswer(this.playerArr);
                 }
@@ -354,7 +416,6 @@
                     this.bestScore = this.score;;
                     this.el.bestScore.textContent = this.bestScore;
                 }
-                this.init(); // 초기화
 
                 this.el.timer.style.transition = `none`;
                 this.el.timer.style.width = "0";
