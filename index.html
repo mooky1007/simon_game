@@ -489,7 +489,9 @@
                 if (!this.playerAnswer) return;
                 if (!this.gameStatus) return;
                 this.playerArr.push(num);
-                navigator.vibrate(100);
+                if (navigator.vibrate) {
+                    navigator.vibrate(100); // 안드로이드에서는 진동 기능 사용
+                }
 
                 this.playerArr[this.playerArr.length - 1] === this.answerArr[this.playerArr.length - 1] ? this.score++ : this.gameOver();
 
@@ -593,8 +595,9 @@
                     btn.disabled = true;
                 });
                 this.el.container.classList.add('shake');
-                navigator.vibrate(500);
-
+                if (navigator.vibrate) {
+                    navigator.vibrate(500);
+                }
                 this.gameStatus = false; // 게임 상태를 종료로 변경
                 clearTimeout(this.timer); // 타이머 초기화
                 if (this.score > this.bestScore) { // 최고점수 갱신
