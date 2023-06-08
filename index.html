@@ -273,7 +273,9 @@
                         i++;
                         if (i >= this.answerArr.length) {
                             clearInterval(interval);
-                            resolve();
+                            setTimeout(() => {
+                                resolve();
+                            }, 500 / this.speed);
                         }
                     }, 1000 / this.speed);
                 });
