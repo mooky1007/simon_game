@@ -672,63 +672,63 @@
         const game = new SimonGame();
 
         // Initialize deferredPrompt for use later to show browser install prompt.
-        let deferredPrompt;
+        // let deferredPrompt;
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent the mini-infobar from appearing on mobile
-            e.preventDefault();
-            // Stash the event so it can be triggered later.
-            deferredPrompt = e;
-            // Update UI notify the user they can install the PWA
-            buttonInstall.style.display = 'flex';
-            // Optionally, send analytics event that PWA install promo was shown.
-            console.log(`'beforeinstallprompt' event was fired.`);
-        });
+        // window.addEventListener('beforeinstallprompt', (e) => {
+        //     // Prevent the mini-infobar from appearing on mobile
+        //     e.preventDefault();
+        //     // Stash the event so it can be triggered later.
+        //     deferredPrompt = e;
+        //     // Update UI notify the user they can install the PWA
+        //     buttonInstall.style.display = 'flex';
+        //     // Optionally, send analytics event that PWA install promo was shown.
+        //     console.log(`'beforeinstallprompt' event was fired.`);
+        // });
 
-        buttonInstall.querySelector('button').addEventListener('click', async () => {
-            // Hide the app provided install promotion
-            buttonInstall.style.display = 'none';
-            // Show the install prompt
-            deferredPrompt.prompt();
-            // Wait for the user to respond to the prompt
-            const { outcome } = await deferredPrompt.userChoice;
-            // Optionally, send analytics event with outcome of user choice
-            console.log(`User response to the install prompt: ${outcome}`);
-            // We've used the prompt, and can't use it again, throw it away
-            deferredPrompt = null;
-        });
+        // buttonInstall.querySelector('button').addEventListener('click', async () => {
+        //     // Hide the app provided install promotion
+        //     buttonInstall.style.display = 'none';
+        //     // Show the install prompt
+        //     deferredPrompt.prompt();
+        //     // Wait for the user to respond to the prompt
+        //     const { outcome } = await deferredPrompt.userChoice;
+        //     // Optionally, send analytics event with outcome of user choice
+        //     console.log(`User response to the install prompt: ${outcome}`);
+        //     // We've used the prompt, and can't use it again, throw it away
+        //     deferredPrompt = null;
+        // });
 
-        window.addEventListener('appinstalled', () => {
-            // Hide the app-provided install promotion
-            buttonInstall.style.display = 'none';
-            // Clear the deferredPrompt so it can be garbage collected
-            deferredPrompt = null;
-            // Optionally, send analytics event to indicate successful install
-            console.log('PWA was installed');
-        });
+        // window.addEventListener('appinstalled', () => {
+        //     // Hide the app-provided install promotion
+        //     buttonInstall.style.display = 'none';
+        //     // Clear the deferredPrompt so it can be garbage collected
+        //     deferredPrompt = null;
+        //     // Optionally, send analytics event to indicate successful install
+        //     console.log('PWA was installed');
+        // });
 
-        function getPWADisplayMode() {
-            const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-            if (document.referrer.startsWith('android-app://')) {
-                return 'twa';
-            } else if (navigator.standalone || isStandalone) {
-                return 'standalone';
-            }
-            return 'browser';
-        }
+        // function getPWADisplayMode() {
+        //     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+        //     if (document.referrer.startsWith('android-app://')) {
+        //         return 'twa';
+        //     } else if (navigator.standalone || isStandalone) {
+        //         return 'standalone';
+        //     }
+        //     return 'browser';
+        // }
 
-        window.matchMedia('(display-mode: standalone)').addEventListener('change', (evt) => {
-            let displayMode = 'browser';
-            if (evt.matches) {
-                displayMode = 'standalone';
-            }
-            // Log display mode change to analytics
-            console.log('DISPLAY_MODE_CHANGED', displayMode);
-        });
+        // window.matchMedia('(display-mode: standalone)').addEventListener('change', (evt) => {
+        //     let displayMode = 'browser';
+        //     if (evt.matches) {
+        //         displayMode = 'standalone';
+        //     }
+        //     // Log display mode change to analytics
+        //     console.log('DISPLAY_MODE_CHANGED', displayMode);
+        // });
 
-        justWeb.addEventListener('click', () => {
-            buttonInstall.style.display = 'none';
-        });
+        // justWeb.addEventListener('click', () => {
+        //     buttonInstall.style.display = 'none';
+        // });
     </script>
     <!-- <tenping class="adsbytenping" style="width: 100%; margin: 0px auto; display: block; max-width: 580px;" tenping-ad-client="tuIL73nWSvUQcEWBXTQnPMGEaawh5LyH%2bnAkYF%2bcTT2hoHuEqXaPbdOlVdYeIK4o" tenping-ad-display-type="UD8Mia8gyIoT5Z2MT6VB3Q%3d%3d"></tenping><script async src='//ads.tenping.kr/scripts/adsbytenping.min.js' ></script> -->
     <ins class="kakao_ad_area" style="display:none;"
