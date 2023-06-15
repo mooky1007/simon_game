@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta property="og:title" content="Simon Game">
     <meta property="og:description" content="기억력의 한계를 시험하십시오.">
-    <meta property="og:image" content="./assets/simon_512.png" /> 
+    <meta property="og:image" content="./assets/simon_512.png" />
     <meta name="description" content="기억력의 한계를 시험하십시오.">
     <link rel="manifest" href="./manifest.json" crossorigin="use-credentials" />
     <link rel="shortcut icon" href="./assets/simon_72.png" type="image/x-icon">
@@ -218,18 +218,22 @@
             border-color: #ddd !important;
             cursor: not-allowed;
         }
+
         .game_buttons button[data-number="0"].action,
         .game_buttons button[data-number="0"].active {
             background-color: rgb(212, 50, 50);
         }
+
         .game_buttons button[data-number="1"].action,
         .game_buttons button[data-number="1"].active {
             background-color: rgb(69, 69, 194);
         }
+
         .game_buttons button[data-number="2"].action,
         .game_buttons button[data-number="2"].active {
             background-color: rgb(82, 184, 136);
         }
+
         .game_buttons button[data-number="3"].action,
         .game_buttons button[data-number="3"].active {
             background-color: rgb(235, 221, 94);
@@ -521,7 +525,7 @@
                 this.el.timer.style.width = "60%";
 
                 await this.questionStep();
-                
+
                 setTimeout(async () => {
                     this.el.game_buttons.classList.add('active');
                     this.playerAnswer = true;
@@ -544,7 +548,7 @@
                         resolve();
                     }, 100);
                 });
-                
+
                 this.el.buttons[num].classList.remove('action');
 
                 this.playerArr[this.playerArr.length - 1] === this.answerArr[this.playerArr.length - 1] ? null : this.gameOver();
@@ -587,14 +591,14 @@
 
             startTimer() {
                 if (!this.checkGameStatus()) return; // 게임이 진행중이 아니면 실행하지 않음
-                
+
                 this.el.buttons.forEach((btn) => {
                     btn.disabled = false;
                 });
-                
+
                 this.el.timer.style.transition = `${this.time}s linear width`;
                 this.el.timer.style.width = "0";
-                
+
                 this.timer = setInterval(() => {
                     this.time -= 1;
                     if (this.time === 0) {
@@ -733,11 +737,8 @@
         //     buttonInstall.style.display = 'none';
         // });
     </script>
-    <!-- <tenping class="adsbytenping" style="width: 100%; margin: 0px auto; display: block; max-width: 580px;" tenping-ad-client="tuIL73nWSvUQcEWBXTQnPMGEaawh5LyH%2bnAkYF%2bcTT2hoHuEqXaPbdOlVdYeIK4o" tenping-ad-display-type="UD8Mia8gyIoT5Z2MT6VB3Q%3d%3d"></tenping><script async src='//ads.tenping.kr/scripts/adsbytenping.min.js' ></script> -->
-    <ins class="kakao_ad_area" style="display:none;"
-        data-ad-unit = "DAN-OzwbkdEIU8bYd4ij"
-        data-ad-width = "320"
-        data-ad-height = "50"></ins>
+    <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-9ysYgTBHjp9BYkSF" data-ad-width="320"
+        data-ad-height="100"></ins>
     <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
 </body>
 
