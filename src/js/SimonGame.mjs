@@ -1,5 +1,6 @@
 class SimonGame {
-    constructor() {
+    constructor(el) {
+        this.DOM = el;
         this.level = 0; // 게임의 단계, 성공 시 마다 1씩 증가한다.
         this.score = 0; // 현재 플레이어의 점수
         this.bestScore = 0; // 플레이어의 최고점수 게임이 끝날때 비교 후 갱신
@@ -11,16 +12,16 @@ class SimonGame {
         this.restart = false; // 게임 재시작을 위한 변수
 
         this.el = {
-            game_buttons: document.querySelector('.game_buttons'),
-            buttons: document.querySelectorAll('.game_buttons button'),
-            level: document.querySelector('.level span'),
-            timer: document.querySelector('.timer'),
-            startBtn: document.querySelector('.start_btn'),
-            score: document.querySelector('.score span'),
-            bestScore: document.querySelector('.best_score span'),
-            gameOver: document.querySelector('.game_over'),
-            container: document.querySelector('.game_container'),
-            collect: document.querySelector('.collect'),
+            game_buttons: this.DOM.querySelector('.game_buttons'),
+            buttons: this.DOM.querySelectorAll('.game_buttons button'),
+            level: this.DOM.querySelector('.level span'),
+            timer: this.DOM.querySelector('.timer'),
+            startBtn: this.DOM.querySelector('.start_btn'),
+            score: this.DOM.querySelector('.score span'),
+            bestScore: this.DOM.querySelector('.best_score span'),
+            gameOver: this.DOM.querySelector('.game_over'),
+            container: this.DOM.querySelector('.game_container'),
+            collect: this.DOM.querySelector('.collect'),
         };
 
         this.el.startBtn.addEventListener('click', () => { this.start(); });
@@ -29,14 +30,6 @@ class SimonGame {
             btn.addEventListener('click', (e) => {
                 this.playerSubmit(Number(e.target.dataset.number));
             });
-            // btn.addEventListener('touchstart', (e) => {
-            //     if (!this.playerAnswer) return;
-            //     if(event.target.disabled) return;
-            //     event.target.classList.add('active');
-            // });
-            // btn.addEventListener('touchend', (e) => {
-            //     event.target.classList.remove('active');
-            // });
         });
 
         this.init(); // 초기화 함수 실행
@@ -181,9 +174,6 @@ class SimonGame {
     async submitAnswer(arr) { // 정답 제출 함수
         if (!this.checkGameStatus()) return; // 게임이 진행중이 아니면 실행하지 않음
         clearTimeout(this.timer); // 타이머 제거
-
-        console.log(arr)
-        console.log(this.answerArr)
 
         for (let i = 0; i < arr.length; i++) { // 정답 배열의 길이만큼 반복
             if (arr[i] !== this.answerArr[i]) { // 정답 배열의 값이 다르면 오답

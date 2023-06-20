@@ -1,3 +1,3 @@
 import SimonGame from "./SimonGame.mjs";
 
-new SimonGame();
+new SimonGame(document.querySelector('.game_body'));
